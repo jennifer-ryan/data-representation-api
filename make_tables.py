@@ -13,7 +13,7 @@ conn = msql.connect(
 
 # Creating a cursor object
 cursor = conn.cursor()
-
+"""
 # Open CSV files
 with open("plant_prices.csv") as pp:
     plantprices = csv.reader(pp, delimiter = ",")
@@ -22,7 +22,7 @@ with open("plant_prices.csv") as pp:
     # Populate table with data from each row
     for row in plantprices:
         cursor.execute("INSERT INTO plantprices (type, price) VALUES (%s, %s)", row)
-
+"""
 with open("plant_info.csv") as pi:
     plantinfo = csv.reader(pi, delimiter = ",")
     # Skip header information in csv
