@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, redirect, abort, jsonify
+from flask import Flask, url_for, request, redirect, abort, jsonify, abort
 from plant_dao import plantdao
 
 app = Flask(__name__,
@@ -45,27 +45,37 @@ def createPlant():
 # curl -X POST -d "{\"name\":\"test\", \"scientific_name\":\"science\", \"light_needs\":\"light\", \"water_needs\":\"water\", \"plant_type\":\"type\", \"stock\":5}" -H Content-Type:application/json http://127.0.0.1:5000/plants
 
 # Update - not working yet
-@app.route('/plants/<string:type>', methods=['PUT'])
+@app.route('/plants/<string:name>', methods=['PUT'])
 def update(name):
-    foundplant = plantdao.findByNameOrType(name)
-    if foundplant == {}:
-        return 404
+    foundplants = plantdao.findByNameOrType(name)
+    if foundplants == []:
+        abort(404, "Page not found")
 
-    currentplant = foundplant
     if "price" in request.json:
-        currentplant["price"] = request.json["price"]
-        plantdao.updatePrice(currentplant)
+        plantdao.updatePrice(foundplants[0]["plant_type"], request.json["price"])
     if "stock" in request.json:
-        currentplant["stock"] = request.json["stock"]
-        plantdao.updateStock(currentplant)
+        plantdao.updateStock(foundplants[0]["name"], request.json["stock"])
 
-    return jsonify(currentplant)
+    return jsonify(plantdao.findByNameOrType(name))
+
+# curl -X PUT -d "{\"price\":5}" -H Content-Type:application/json http://127.0.0.1:5000/plants/type
 # curl -X PUT -d "{\"stock\":5}" -H Content-Type:application/json http://127.0.0.1:5000/plants/type
+
 
 # Delete
 @app.route('/plants/<string:name>', methods=['DELETE'])
 def delete(name):
-    return jsonify({"done": True})
+    foundplant = plantdao.findByNameOrType(name)
+
+    print(foundplant)
+    print(name)
+    if name != foundplant[0]["name"] or name != foundplant[0]["scientific_name"]:
+       # print("Please enter full plant name to delete")
+        abort(404, "Page not found. Please enter full name of the plant to delete.")
+
+    else:
+        plantdao.deletePlant(name)
+        return jsonify({"done": True})
 # curl -X DELETE http://127.0.0.1:5000/plants/name
 
 if __name__ == "__main__":
