@@ -53,8 +53,20 @@ def update(name):
 
     if "price" in request.json:
         plantdao.updatePrice(foundplants[0]["plant_type"], request.json["price"])
+    if "name" in request.json:
+        foundplants[0]["name"] = request.json["name"]
+    if "scientific_name" in request.json:
+        foundplants[0]["scientific_name"] = request.json["scientific_name"]
+    if "light_needs" in request.json:
+        foundplants[0]["light_needs"] = request.json["light_needs"]
+    if "water_needs" in request.json:
+        foundplants[0]["water_needs"] = request.json["water_needs"]
+    if "plant_type" in request.json:
+        foundplants[0]["plant_type"] = request.json["plant_type"]
     if "stock" in request.json:
-        plantdao.updateStock(foundplants[0]["name"], request.json["stock"])
+        foundplants[0]["stock"] = request.json["stock"]    
+    
+    plantdao.updatePlant(foundplants[0]["name"], foundplants[0])
 
     return jsonify(plantdao.findByNameOrType(name))
 

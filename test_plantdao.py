@@ -29,16 +29,25 @@ result = plantdao.findByNameOrType("folia")
 print(result)
 """
 
-# Test update stock
-"""
+# Test update plant
+
+plant2 = {
+    "name":"Lucky Bambooooo",
+    "scientific_name":"Dracaena sanderianaaaa",
+    "light_needs":"Mediummmm",
+    "water_needs":"Highhhh",
+    "plant_type":"Foliage",
+    "stock":333
+}
+
 print("Original:")
-result = plantdao.findByNameOrType("Prayer Plant")
+result = plantdao.findByNameOrType("Lucky")
 print(result)
-plantdao.updateStock("Prayer Plant", 12)
+plantdao.updatePlant("Lucky Bamboo", plant2)
 print("After update:")
-result = plantdao.findByNameOrType("Prayer Plant")
+result = plantdao.findByNameOrType("Lucky")
 print(result)
-"""
+
 
 # Creating new entry
 """

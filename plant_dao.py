@@ -119,10 +119,27 @@ class PlantDao:
         cursor.close()
 
     # Update plant stock
-    def updateStock(self, name, stock):
+    def updatePlant(self, name, plant):
         cursor = self.conn.cursor()
-        sql = "UPDATE plantinfo SET stock = %s WHERE name = %s OR scientific_name = %s"
-        values = [stock, name, name]
+        sql = """UPDATE plantinfo 
+                SET name = %s, 
+                scientific_name = %s, 
+                light_needs = %s, 
+                water_needs = %s, 
+                plant_type = %s, 
+                stock = %s
+                WHERE name = %s 
+                OR scientific_name = %s"""
+        values = [
+            plant["name"],
+            plant["scientific_name"],
+            plant["light_needs"],
+            plant["water_needs"],
+            plant["plant_type"],
+            plant["stock"],
+            name,
+            name
+        ]
         cursor.execute(sql, values)
         self.conn.commit()
         cursor.close()
