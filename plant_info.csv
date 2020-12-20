@@ -1,41 +1,41 @@
-id,name,scientific_name,light_needs,water_needs,type,stock
-1,Prayer Plant,Maranta leuconeura,Medium,Medium,Foliage,8
-2,Peace Lily,Spathiphyllum ,Low,Low,Easy Care,10
-3,Chinese Money Plant,Pilea peperomioides,High,Low,Unusual,3
-4,Golden Pothos,Epipremnum aureum,High,Low,Foliage,7
-5,False Shamrock,Oxalis Triangularis,Medium,Medium,Unusual,3
-6,Umbrella Plant,Cyperus alternifolius,Medium,Low,Tree,17
-7,Swiss Cheese Plant,Monstera Deliciosa,Medium,Medium,Large,5
-8,Aloe Vera,Aloe Vera,High,Low,Succulent,0
-9,African Violet,Streptocarpus sect.,High,High,Flowering,9
-10,Rubber Plant,Ficus elastica,High,Low,Large,18
-11,Orchid,Orchidaceae ,High,Low,Flowering,16
-12,Nerve Plant,Fittonia ,Medium,Medium,Unusual,3
-13,China Doll Plant,Radermachera sinica,High,Medium,Foliage,7
-14,Christmas Cactus,Schlumbergera bridgessii,Medium,Low,Cactus,11
-15,Boston Fern,Nephrolepis exaltata,Medium,High,Fern,12
-16,Asparagus Fern,Asparagus setaceus,Medium,High,Fern,0
-17,Boat Lily,Tradescantia spathacea,High,Medium,Hanging,15
-18,ZZ Plant,Zamioculcas ,Low,Low,Easy Care,6
-19,Coffee Plant,Coffea ,Medium,High,Foliage,0
-20,English Ivy,Hedera helix,Medium,High,Hanging,4
-21,String of Pearls,Senecio rowleyanus,High,Low,Hanging,12
-22,Croton,Codiaeum variegatum,High,Low,Foliage,4
-23,Jade Plant,Crassula ovata,High,Low,Succulent,7
-24,Gollum Jade,Crassula ovata 'Gollum',High,Low,Succulent,13
-25,Dragon Tree,Dracaena draco,Medium,Medium,Tree,10
-26,Snake Plant,Dracaena trifasciata,Low,Low,Easy Care,8
-27,Weeping Fig,Ficus benjamina,Medium,Medium,Tree,3
-28,Autograph Tree,Clusia rosea,Medium,Medium,Tree,5
-29,Flaming Katy,Kalanchoe blossfeldiana,High,Medium,Flowering,3
-30,Bunny Ears Cactus,Opuntia microdasys,High,Low,Cactus,12
-31,Copperleaf Plant,Acalypha wilkesiana,High,High,Unusual,11
-32,Fiddle Leaf Fig,Ficus lyrata,Medium,Medium,Large,1
-33,Bird's Nest Fern,Asplenium nidus,Medium,Medium,Fern,15
-34,Maidenhair Fern,Adiantum raddianum,Medium,High,Fern,2
-35,Spider Plant,Chlorophytum comosum,Medium,Medium,Hanging,17
-36,Hertleaf Philodendron,Philodendron bipinnatifidum,Medium,Medium,Large,14
-37,Bird of Paradise,Strelitzia reginae,High,Low,Flowering,1
-38,Blue Myrtle Cactus,Myrtillocactus geometrizans,High,Low,Cactus,0
-39,Jasmine,Jasminum,Medium,High,Flowering,11
-40,Elephant Ears Plant,Alocasia,Medium,High,Large,5
+name,scientific_name,light_needs,water_needs,plant_type,stock
+Prayer Plant,Maranta leuconeura,Medium,Medium,Foliage,8
+Peace Lily,Spathiphyllum,Low,Low,Easy Care,10
+Chinese Money Plant,Pilea peperomioides,High,Low,Unusual,3
+Golden Pothos,Epipremnum aureum,High,Low,Foliage,7
+False Shamrock,Oxalis Triangularis,Medium,Medium,Unusual,3
+Umbrella Plant,Cyperus alternifolius,Medium,Low,Tree,17
+Swiss Cheese Plant,Monstera Deliciosa,Medium,Medium,Large,5
+Aloe Vera,Aloe Vera,High,Low,Succulent,0
+African Violet,Streptocarpus sect.,High,High,Flowering,9
+Rubber Plant,Ficus elastica,High,Low,Large,18
+Orchid,Orchidaceae,High,Low,Flowering,16
+Nerve Plant,Fittonia,Medium,Medium,Unusual,3
+China Doll Plant,Radermachera sinica,High,Medium,Foliage,7
+Christmas Cactus,Schlumbergera bridgessii,Medium,Low,Cactus,11
+Boston Fern,Nephrolepis exaltata,Medium,High,Fern,12
+Asparagus Fern,Asparagus setaceus,Medium,High,Fern,0
+Boat Lily,Tradescantia spathacea,High,Medium,Hanging,15
+ZZ Plant,Zamioculcas,Low,Low,Easy Care,6
+Coffee Plant,Coffea,Medium,High,Foliage,0
+English Ivy,Hedera helix,Medium,High,Hanging,4
+String of Pearls,Senecio rowleyanus,High,Low,Hanging,12
+Croton,Codiaeum variegatum,High,Low,Foliage,4
+Jade Plant,Crassula ovata,High,Low,Succulent,7
+Gollum Jade,Crassula ovata gollum,High,Low,Succulent,13
+Dragon Tree,Dracaena draco,Medium,Medium,Tree,10
+Snake Plant,Dracaena trifasciata,Low,Low,Easy Care,8
+Weeping Fig,Ficus benjamina,Medium,Medium,Tree,3
+Autograph Tree,Clusia rosea,Medium,Medium,Tree,5
+Flaming Katy,Kalanchoe blossfeldiana,High,Medium,Flowering,3
+Bunny Ears Cactus,Opuntia microdasys,High,Low,Cactus,12
+Copperleaf Plant,Acalypha wilkesiana,High,High,Unusual,11
+Fiddle Leaf Fig,Ficus lyrata,Medium,Medium,Large,1
+Bird's Nest Fern,Asplenium nidus,Medium,Medium,Fern,15
+Maidenhair Fern,Adiantum raddianum,Medium,High,Fern,2
+Spider Plant,Chlorophytum comosum,Medium,Medium,Hanging,17
+Hertleaf Philodendron,Philodendron bipinnatifidum,Medium,Medium,Large,14
+Bird of Paradise,Strelitzia reginae,High,Low,Flowering,1
+Blue Myrtle Cactus,Myrtillocactus geometrizans,High,Low,Cactus,0
+Jasmine,Jasminum,Medium,High,Flowering,11
+Elephant Ears Plant,Alocasia,Medium,High,Large,5

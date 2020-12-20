@@ -3,6 +3,19 @@ import mysql.connector as msql
 class PlantDao:
     conn = ""
 
+    # Set main sql command to global variable for use in functions
+    global mainsql
+
+    mainsql = """SELECT pi.name AS name, 
+                pi.scientific_name AS scientific_name, 
+                pi.light_needs AS light_needs, 
+                pi.water_needs AS water_needs, 
+                pi.plant_type AS plant_type, 
+                pi.stock AS stock, 
+                pp.price AS price 
+                FROM plantinfo pi, plantprices pp 
+                WHERE pi.plant_type=pp.plant_type"""
+
     # Estabish connection
     def __init__(self):
         self.conn =  msql.connect(
@@ -12,20 +25,10 @@ class PlantDao:
             database = "plantdb"
         )
 
-
     # Get all data from both tables
     def getAll(self):
         cursor = self.conn.cursor()
-        sql = """SELECT pi.id AS id, 
-                pi.name AS name, 
-                pi.scientific_name AS scientific_name, 
-                pi.light_needs AS light_needs, 
-                pi.water_needs AS water_needs, 
-                pi.type AS type, 
-                pi.stock AS stock, 
-                pp.price AS price 
-                FROM plantinfo pi, plantprices pp 
-                WHERE pi.type=pp.type"""
+        sql = mainsql
         cursor.execute(sql)
         results = cursor.fetchall()
         
@@ -43,19 +46,9 @@ class PlantDao:
     # Find by name or type
     def findByNameOrType(self, name):
         cursor = self.conn.cursor()
-        sql = """SELECT pi.id AS id, 
-                pi.name AS name, 
-                pi.scientific_name AS scientific_name, 
-                pi.light_needs AS light_needs, 
-                pi.water_needs AS water_needs, 
-                pi.type AS type, 
-                pi.stock AS stock, 
-                pp.price AS price 
-                FROM plantinfo pi, plantprices pp 
-                WHERE pi.type=pp.type
-                AND (pi.name LIKE %s
+        sql = mainsql + """ AND (pi.name LIKE %s
                 OR pi.scientific_name LIKE %s
-                OR pi.type LIKE %s)"""
+                OR pi.plant_type LIKE %s)"""
         
         value = "%" + name.title() + "%"
         values = [value, value, value]
@@ -77,17 +70,7 @@ class PlantDao:
     # Find by plant needs
     def findByNeed(self, lightNeed, waterNeed):
         cursor = self.conn.cursor()
-        sql = """SELECT pi.id AS id, 
-                pi.name AS name, 
-                pi.scientific_name AS scientific_name, 
-                pi.light_needs AS light_needs, 
-                pi.water_needs AS water_needs, 
-                pi.type AS type, 
-                pi.stock AS stock, 
-                pp.price AS price 
-                FROM plantinfo pi, plantprices pp 
-                WHERE pi.type=pp.type
-                AND pi.light_needs = %s
+        sql = mainsql + """ AND pi.light_needs = %s
                 AND pi.water_needs = %s
                 """
         
@@ -109,13 +92,13 @@ class PlantDao:
     # Create entry
     def createPlant(self, plant):
         cursor = self.conn.cursor()
-        sql = "INSERT INTO plantinfo (name, scientific_name, light_needs, water_needs, type, stock) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO plantinfo (name, scientific_name, light_needs, water_needs, plant_type, stock) VALUES (%s, %s, %s, %s, %s, %s)"
         values = [
             plant["name"],
             plant["scientific_name"],
             plant["light_needs"],
             plant["water_needs"],
-            plant["type"],
+            plant["plant_type"],
             plant["stock"]
         ]
 
@@ -123,16 +106,13 @@ class PlantDao:
         cursor.execute(sql, values)
         self.conn.commit()
 
-        # Returns auto-incremented number
-        return cursor.lastrowid
-
         # Close the connection
         cursor.close()
 
     # Update plant prices
     def updatePrice(self, plant_type, price):
         cursor = self.conn.cursor()
-        sql = "UPDATE plantprices SET price = %s WHERE type = %s"
+        sql = "UPDATE plantprices SET price = %s WHERE plant_type = %s"
         values = [price, plant_type]
         cursor.execute(sql, values)
         self.conn.commit()
@@ -153,12 +133,13 @@ class PlantDao:
         sql = "DELETE FROM plantinfo WHERE name = %s OR scientific_name = %s"
         values = [name, name]
         cursor.execute(sql, values)
+        self.conn.commit()
         cursor.close()
 
 
     # Convert tuples to dictionary objects
     def convert_to_dict(self, result):
-        colnames = ["id", "name", "scientific_name", "light_needs", "water_needs", "type", "stock", "price"]
+        colnames = ["name", "scientific_name", "light_needs", "water_needs", "plant_type", "stock", "price"]
         plant = {}
 
         if result:
