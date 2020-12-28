@@ -1,10 +1,12 @@
 from plant_dao import plantdao
-
-# Test get all
 """
+# Test get all
 result = plantdao.getAll()
 print(result)
 """
+# Test get all plant types/prices
+result = plantdao.getAllTypes()
+print(result)
 
 # Test find by name/type
 """
@@ -30,7 +32,7 @@ print(result)
 """
 
 # Test update plant
-
+"""
 plant2 = {
     "name":"Lucky Bambooooo",
     "scientific_name":"Dracaena sanderianaaaa",
@@ -47,7 +49,7 @@ plantdao.updatePlant("Lucky Bamboo", plant2)
 print("After update:")
 result = plantdao.findByNameOrType("Lucky")
 print(result)
-
+"""
 
 # Creating new entry
 """

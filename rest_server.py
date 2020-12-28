@@ -1,9 +1,13 @@
-from flask import Flask, url_for, request, redirect, abort, jsonify, abort
+from flask import Flask, url_for, request, redirect, abort, jsonify, abort, send_from_directory
+
+from flask_cors import CORS
 from plant_dao import plantdao
 
 app = Flask(__name__,
             static_url_path = "", 
             static_folder = "staticpages")
+# Requests were blocked by CORS policy until this was added
+CORS(app)
 
 # Keep json objects sorted as in dictionary
 app.config['JSON_SORT_KEYS'] = False
@@ -11,7 +15,8 @@ app.config['JSON_SORT_KEYS'] = False
 # Index
 @app.route('/')
 def index():
-    return "Hello"
+    content = send_from_directory('staticpages', "home.html")
+    return content
 # curl http://127.0.0.1:5000
 
 # Get all
@@ -20,14 +25,26 @@ def getAll():
     return jsonify(plantdao.getAll())
 # curl http://127.0.0.1:5000/plants
 
+# Get all types
+@app.route('/types')
+def getAllTypes():
+    return jsonify(plantdao.getAllTypes())
+# curl http://127.0.0.1:5000/types
+
 # Find by name/type
 @app.route('/plants/<string:name>')
 def findByNameOrType(name):
     return jsonify(plantdao.findByNameOrType(name))
 # curl http://127.0.0.1:5000/plants/name
 
+# Find by need
+@app.route('/plants/<light>/<water>')
+def findByNeed(light, water):
+    return jsonify(plantdao.findByNeed(light, water))
+# curl http://127.0.0.1:5000/plants/medium/medium
+
 # Create plant
-@app.route('/plants', methods=['POST'])
+@app.route('/plants', methods=['POST'])         
 def createPlant():
     if not request.json:
         abort(400)
@@ -44,7 +61,7 @@ def createPlant():
     return jsonify(plantdao.createPlant(plant))
 # curl -X POST -d "{\"name\":\"test\", \"scientific_name\":\"science\", \"light_needs\":\"light\", \"water_needs\":\"water\", \"plant_type\":\"type\", \"stock\":5}" -H Content-Type:application/json http://127.0.0.1:5000/plants
 
-# Update - not working yet
+# Update 
 @app.route('/plants/<string:name>', methods=['PUT'])
 def update(name):
     foundplants = plantdao.findByNameOrType(name)
@@ -77,18 +94,18 @@ def update(name):
 # Delete
 @app.route('/plants/<string:name>', methods=['DELETE'])
 def delete(name):
-    foundplant = plantdao.findByNameOrType(name)
-
-    print(foundplant)
-    print(name)
-    if name != foundplant[0]["name"] or name != foundplant[0]["scientific_name"]:
-       # print("Please enter full plant name to delete")
-        abort(404, "Page not found. Please enter full name of the plant to delete.")
-
-    else:
         plantdao.deletePlant(name)
         return jsonify({"done": True})
 # curl -X DELETE http://127.0.0.1:5000/plants/name
+
+""" spare code for delete
+foundplant = plantdao.findByNameOrType(name)
+
+    if name != foundplant[0]["name"] or name != foundplant[0]["scientific_name"]:
+        abort(404, "Page not found. Please enter full name of the plant to delete.")
+
+    else:
+        """
 
 if __name__ == "__main__":
     app.run(debug=True)

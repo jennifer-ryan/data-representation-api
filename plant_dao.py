@@ -43,6 +43,29 @@ class PlantDao:
         # Close the connection
         cursor.close()
 
+    # Get all from just the plant prices table
+    def getAllTypes(self):
+        cursor = self.conn.cursor()
+        sql = "SELECT  * from plantprices"
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        
+        return_list = []
+
+        for result in results:
+            colnames = ["plant_type", "price"]
+            plant = {}
+
+            for i, colname in enumerate(colnames):
+                value = result[i]
+                plant[colname] = value
+            
+            return_list.append(plant)
+
+        return return_list
+        # Close the connection
+        cursor.close()
+
     # Find by name or type
     def findByNameOrType(self, name):
         cursor = self.conn.cursor()
