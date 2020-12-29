@@ -26,7 +26,7 @@ The contents of this repository are:
 - Open command line and clone the repository to your machine. 
 - Open MySQL command line and use the files in the databasefiles folder to create the plantdb database, it's tables, and populate it with data from the CSV files.
 - Back in your machine's command line, create a virtual environment and use requirements.txt to install the packages required using "pip install -r requirements.txt"
-- Navigate into the virtual environment and run the command "python rest_server.py" The server is now running.
+- Navigate into the virtual environment and run the command "python rest_server.py" The server should now be running.
 - Open local host in your browser.
 - Log in using the username and password which can be seen by hovering over the text boxes.
 - The API is now ready to use.   
@@ -44,13 +44,13 @@ The mySQL database contains two linked tables:
     - plant type
     - price
 
-The databases are linked on plant type which determines the price. 
+The tables are linked on plant type which determines the price. 
 
-Once the user has logged in, a table displaying all data from the database is called from the server. Each of these can be updated and deleted using the buttons beside each entry, which updates both the table and the database. Plant prices cannot be updated from this area as prices are linked to plant types. 
+Once the user has logged in, a table displaying all data from the database is called from the server and displayed on screen. Each of these can be updated and deleted using the buttons beside each entry, which updates both the table and the database. Plant prices cannot be updated from this area as prices are linked to plant types, therefore another call is often made to the server to update the table rather than display. This area could have been designed better. 
 
 The Options button at the top of the page allows the user to:
 - Search for plants by name, scientific name, or type. Partial searches are permitted.  
-- Search for plants by needs - light and water - to suit their requirements.
+- Search for plants by needs - light and water.
 - Create a new plant and add it to the database. Name and type are required entries but the rest of the information can be left blank if unknown and added at a later stage with the update button.
 - Changes prices of plant types.
 - Log out - return to the login page.   
