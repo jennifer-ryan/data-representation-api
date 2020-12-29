@@ -8,20 +8,24 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
         <style>
+            /* Main div style */
             #mainDiv {
                 padding: 20px;
             }
 
+            /* Styling for all headings */
             .heading {
                 font-weight: bold;
             }
 
+            /* Button alignment */
             .buttonContainer > div {
                 text-align: justify;
                 -ms-text-justify: distribute-all-lines;
                 text-justify: distribute-all-lines;
             }
 
+            /* Button styling */
             .allButtons {
                 background-color: #4CAF50;
                 border: none;
@@ -35,12 +39,14 @@
                 cursor: pointer;
             }
 
+            /* Search results text */
             #searchResults {
                 color: red;
                 font-size: 15px;
                 font-weight: bold;
             }
-
+            
+            /* Table styling */
             #createUpdateForm {
                 width: 25%;
             }
@@ -49,6 +55,7 @@
                 width: 30%
             }
 
+            /* Dropdown menu styling */
             select {
                 background-color: #4CAF50;
                 border: none;
@@ -63,16 +70,18 @@
     <body>
         
         <div id="mainDiv">
-            <!--Options-->
+            <!-- Options buttons -->
             <button id="options" class="allButtons" onclick="showOptions()">View Options</button>
             <div class="buttonContainer" id="buttons" class="allButtons" style="display:none">
                 <h3 class="heading">Options</h3>
                 <br>
+                <!-- Search by name -->
                 <div>
                     <input id="searchBox"> 
                     <button id="SearchByName" class="allButtons" onclick="searchByName()">Find Plants by Name/Type</button>
                 </div>
                 <br>
+                <!-- Search by need -->
                 <div>
                     <select id="lightSearch">
                         <option id="empty" value="" disabled selected hidden>Select Light Needs</option>
@@ -89,14 +98,17 @@
                     <button id="SearchByNeed" class="allButtons" onclick="searchByNeed()">Find Plants by Need</button>
                 </div>
                 <br>
+                <!-- Create button -->
                 <div>
                     <button id="createPlant" class="allButtons" onclick="showCreate()">Create New Plant</button>
                 </div>
                 <br>
+                <!-- Change price button -->
                 <div>
                     <button class="allButtons" onclick="showPriceChanger()">Change Prices</button>
                 </div>
                 <br>
+                <!-- Log out button -->
                 <div>
                     <button class="allButtons" onclick="location.href='login.html';">Log Out</button>
                 </div>
@@ -107,12 +119,12 @@
             <div id="searchResults"></div>
             <br>
 
-           
-
-            <!--Create or update plants-->
+            <!-- Table to create or update plants -->
             <div id="createOrUpdate" style="display:none">
+                <!-- Headings -->
                 <h2 id="createHeading" class="heading">Create New Plant</h2>
                 <h2 id="updateHeading" class="heading">Update Plant</h2>
+                <!-- Table form -->
                 <table id="createUpdateForm" class="table table-sm">                           
                     <tr>
                         <td>Plant Name</td>
@@ -169,6 +181,7 @@
                     </tr>
                     <tr>
                         <td></td><td>
+                            <!-- Buttons -->
                             <button id="createButton" class="allButtons" onclick="createPlant()">Create</button>     
                             <button id="updateButton" class="allButtons" onclick="updatePlantInfo()">Update</button>
                         </td>
@@ -186,8 +199,8 @@
                 <h2 class="heading">Change Plant Prices</h2>
                 <br>
                 <table class="table table-sm" id="pricesTable">
-                    
                         <tr>
+                            <!-- Table form -->
                             <td>Select Plant Type</td>
                             <td>
                                 <select id="plantType" name="type">
@@ -213,6 +226,7 @@
                         </tr>
                         <tr>
                             <td></td><td>
+                                <!-- Buttons -->
                                 <button id="updatePrice" class="allButtons" onclick="updatePrice()">Change Price</button>
                             </td>
                         </tr>
@@ -223,13 +237,13 @@
                         </tr>
                 </table>
             </div>
-
-               
         
-                <!--Main table-->
+            <!--Main table containing all data-->
             <div id="mainTable">
+                <!-- Headings -->
                 <h2 id="tableHeading" class="heading">All Plants</h2>
                 <h2 id="searchHeading" class="heading" style="display:none">Search Results</h2>
+                    <!-- Table -->
                     <table class="table table-hover">
                         <thead>
                             <th>Name</th>
@@ -242,12 +256,14 @@
                             <th>Update</th>
                             <th>Delete</th>
                         </thead>
+                        <!-- Table body filled through ajax -->
                         <tbody id="plantTable">
-    
                         </tbody>
+                            <tr></tr>
                         <tfoot>
                             <tr>
-                               <td valign="bottom" halign="right">
+                                <!-- Rload button -->
+                                <td valign="bottom" halign="right">
                                  <button id="reloadPage" class="allButtons" onclick="location.reload()">Reload Full Table</button>
                                </td>
                             </tr>
@@ -257,119 +273,58 @@
         </div>
         
         <script>
-
+            // Declare host
             host = window.location.origin
-        /* **************************************** GET FUNCTIONS **************************************** */
 
-            // Get all data from the server using ajax
-            function populateMainTable(){
-                $.ajax({
-                    url: host + "/plants",
-                    method:"GET",
-                    datatype:"JSON",
-                    success:function(results){
-                        for (plant of results){
-                            addPlantToMainTable(plant)
-                        }
-                    },
-                    error:function (xhr,status,error){
-                       console.log ("error "+error +" code:"+status)
-                    }
-                })
-            }
-
-            // Add plants to table
-            function addPlantToMainTable(plant){
-                tableElem = document.getElementById("plantTable")
-                rowElem = tableElem.insertRow(-1)
-                // Create row id with plant name
-                rowElem.setAttribute("id", plant.name)
-                // Add data to each cell in table
-                cell1 = rowElem.insertCell(0)
-                cell1.innerHTML = plant.name
-                cell2 = rowElem.insertCell(1)
-                cell2.innerHTML = plant.scientific_name
-                cell3 = rowElem.insertCell(2)
-                cell3.innerHTML = plant.light_needs               
-                cell4 = rowElem.insertCell(3)
-                cell4.innerHTML = plant.water_needs                              
-                cell5 = rowElem.insertCell(4)
-                cell5.innerHTML = plant.plant_type               
-                cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = plant.stock               
-                cell7 = rowElem.insertCell(6)
-                cell7.innerHTML = "€" + plant.price.toFixed(2)
-                // Add buttons to each row
-                cell8 = rowElem.insertCell(7)
-                cell8.innerHTML = "<button class='allButtons' onclick='showUpdate(this)'>Update</button>"
-                cell9 = rowElem.insertCell(8)
-                cell9.innerHTML = "<button class='allButtons' onclick='deletePlant(this)'>Delete</button>"
-            }
-            
-            // Add types to table
-            function addTypeToTable(plant){
-                tableElem = document.getElementById("pricesTable")
-                rowElem = tableElem.insertRow(-1);
-                // Create row id with plant name
-                rowElem.setAttribute("id", plant.plant_type)
-                // Add data to each cell in table
-                cell1 = rowElem.insertCell(0)
-                cell1.innerHTML = plant.plant_type
-                cell2 = rowElem.insertCell(1)
-                cell2.innerHTML = "€" + plant.price.toFixed(2)
-                
-                // Add buttons to each row
-                cell3 = rowElem.insertCell(2)
-                cell3.innerHTML = "<button class='allButtons' onclick='priceUpdate(this)'>Update Price</button>"
-            }
-
-            function updatePrice(){
-                plant = {}
-                
-                plant_type = document.getElementById("plantType")
-                new_price = document.getElementById("newPrice")
-
-                if (plant_type.value=="" || new_price.value==""){
-                    alert("Please choose a plant type and enter a new price.")
+                                                                /***** CREATE FUNCTIONS *****/
+            // Add new plant to the database
+            function createPlant(){
+                // Get input entered
+                plant = getPlantFromForm()
+                // Ensure plant name is entered (primary key) and type (needed for price)
+                if (plant.name == "" || plant.plant_type==""){
+                    alert("You must enter a plant name and type")
                 }
                 else {
-                    plant.plant_type = plant_type.value
-                    plant.price = new_price.value
-                    
+                    // Run request
                     $.ajax({
-                        url: "/plants/" + plant.plant_type,
-                        data: JSON.stringify(plant),
-                        method: "PUT",
-                        dataType: "JSON",
+                        url:"/plants",
+                        data:JSON.stringify(plant),
+                        method:"POST",
+                        dataType:"JSON",
                         contentType: "application/json; charset=utf-8",
-                        success:function (result) {
-                            alert("Prices for " + plant.plant_type + " plant types successfully updated")
+                        success:function(result){
+                            alert(plant.name + " successfully added!")
+                            // Reload page to fill prices  
                             location.reload()
+                            addPlantToMainTable(plant)
+                            clearForm()
                         },
-                        error: function (xhr, status, error) {
-                            console.log("error" + error)
+                        error:function(xhr,status,error){
+                            console.log("error"+ error)
+                            // Catch an attempt to enter same plant name
+                            if (error == "INTERNAL SERVER ERROR"){
+                                alert("Error! You may have entered a plant name that already exists. Please try again.")
+                            } 
                         }
                     })
                 }
             }
             
-            function showOptions() {
-                document.getElementById("options").style.display = "none"
-                document.getElementById("buttons").style.display = "block"
-            }
 
+                                                                /***** RETRIEVE FUNCTIONS *****/
             // Search by name, scientific name or plant type
             function searchByName(){
-                // Remove table values
+                // Remove main table values to be replaced with search results
                 var table = document.getElementById("plantTable");
                 table.innerHTML = "";
-                
+
                 // Display/hide elements
                 document.getElementById("tableHeading").style.display = "none"
                 document.getElementById("searchHeading").style.display = "block"
                 document.getElementById("searchResults").style.display = "none"
 
-                // Get searchbox input
+                // Get search input
                 userInput = document.getElementById("searchBox")
                 
                 // Run request with input
@@ -378,6 +333,7 @@
                     method:"GET",
                     datatype:"JSON",
                     success:function(results){
+                        // Plant not found
                         if (!$.trim(results)){   
                             alert("Sorry there is no plant by that name or type" + results);
                         }
@@ -393,17 +349,18 @@
                 })
             }
 
+            // Search by light and water needs
             function searchByNeed(){
-                // Remove table values
+                // Remove main table values to be replaced with search results
                 var table = document.getElementById("plantTable");
                 table.innerHTML = "";
                 
-                // Hide/display elements
+                // Display/hide elements
                 document.getElementById("tableHeading").style.display = "none"
                 document.getElementById("searchHeading").style.display = "block"
                 document.getElementById("searchResults").style.display = "block"
                 
-                // Get input from dropdown
+                // Get input from dropdowns
                 light = document.getElementById("lightSearch")
                 water = document.getElementById("waterSearch")
                 
@@ -421,7 +378,7 @@
                         method:"GET",
                         datatype:"JSON",
                         success:function(results){
-                            // If no results found
+                            // No plants found
                             if (!$.trim(results)){   
                                 alert("Sorry, there are currently no plants with that combination of needs" + results);
                             }
@@ -435,139 +392,50 @@
                                 console.log ("error "+error +" code:"+status)
                         }    
                     })
-                }
+                }   
+            }
+
+
+                                                                /***** UPDATE FUNCTIONS *****/
+
+            // Update plant prices
+            function updatePrice(){
+                plant = {}
                 
-            }
-
-            function showCreate(){
-                document.getElementById("options").style.display = "none"                                
-                document.getElementById("createOrUpdate").style.display = "block"
-                document.getElementById("updateHeading").style.display = "none"
-                document.getElementById("createHeading").style.display = "block"
-                document.getElementById("mainTable").style.display = "none"
-                document.getElementById("buttons").style.display = "none"
-                document.getElementById("createButton").style.display = "block" 
-                document.getElementById("updateButton").style.display = "none" 
-                document.getElementById("searchResults").style.display = "none"
-
-            }
-
-            function createPlant(){
-                plant = getPlantFromForm()
-                // Ensure plant name is entered (primary key)
-                if (plant.name == "" || plant.plant_type==""){
-                    alert("You must enter a plant name and type")
+                // Get input
+                plant_type = document.getElementById("plantType")
+                new_price = document.getElementById("newPrice")
+                
+                // Check if empty
+                if (plant_type.value=="" || new_price.value==""){
+                    alert("Please choose a plant type and enter a new price.")
                 }
                 else {
+                    plant.plant_type = plant_type.value
+                    plant.price = new_price.value
+                    // Send request
                     $.ajax({
-                        url:"/plants",
-                        data:JSON.stringify(plant),
-                        method:"POST",
-                        dataType:"JSON",
+                        url: "/plants/" + plant.plant_type,
+                        data: JSON.stringify(plant),
+                        method: "PUT",
+                        dataType: "JSON",
                         contentType: "application/json; charset=utf-8",
-                        success:function(result){
-                            alert(plant.name + " successfully added!")
-                            // Reloaded to fill prices  
+                        success:function (result) {
+                            alert("Prices for " + plant.plant_type + " plant types successfully updated")
                             location.reload()
-                            addPlantToMainTable(plant)
-                            clearForm()
                         },
-                        error:function(xhr,status,error){
-                            console.log("error"+ error)
-                            if (error == "INTERNAL SERVER ERROR"){
-                                alert("Error! You may have entered a plant name that already exists. Please try again.")
-                            } 
+                        error: function (xhr, status, error) {
+                            console.log("error" + error)
                         }
                     })
                 }
             }
-
-            function showUpdate(thisElem){
-                // Show/hide elements
-                document.getElementById("options").style.display = "none"                
-                document.getElementById("createOrUpdate").style.display = "block"
-                document.getElementById("createHeading").style.display = "none"
-                document.getElementById("updateHeading").style.display = "block"
-                document.getElementById("mainTable").style.display = "none"
-                document.getElementById("buttons").style.display = "none"
-                document.getElementById("createButton").style.display = "none" 
-                document.getElementById("updateButton").style.display = "block" 
-                document.getElementById("searchResults").style.display = "none"
-
- 
-                
-                // Fill form with values from the row
-                var rowElement = thisElem.parentNode.parentNode;
-                var plant = readPlantRow(rowElement)
-                populateForm(plant)
-            }
-
-            function readPlantRow(rowElement){
-                plant = {}
-                
-                plant.name = rowElement.getAttribute("id");
-                // Checking for null content
-                try{
-                    plant.scientific_name = rowElement.cells[1].firstChild.textContent
-                }
-                catch(err){
-                    plant.scientific_name = ""
-                }
-                
-                try{
-                    plant.light_needs = rowElement.cells[2].firstChild.textContent
-                }
-                catch(err){
-                    plant.light_needs = ""
-                }
-                
-                try{
-                    plant.water_needs = rowElement.cells[3].firstChild.textContent
-                }
-                catch(err){
-                    plant.water_needs = ""
-                }
-                
-                plant.plant_type = rowElement.cells[4].firstChild.textContent
-                plant.stock = rowElement.cells[5].firstChild.textContent
-
-                return plant
-                
-            }
-
-            function populateForm(plant){
-                var form = document.getElementById("createOrUpdate")
-  
-                form.querySelector("input[name='name']").value = plant.name
-                form.querySelector("input[name='name']").disabled=true
-                form.querySelector("input[name='scientific_name']").value = plant.scientific_name
-                form.querySelector("select[name='light']").value = plant.light_needs
-                form.querySelector("select[name='water']").value = plant.water_needs      
-                form.querySelector("select[name='type']").value = plant.plant_type      
-                form.querySelector("input[name='stock']").value = plant.stock     
-            }
-
-            function getPlantFromForm(){
-                var form = document.getElementById("createOrUpdate")
-
-                var plant = {}
-                plant.name = form.querySelector("input[name='name']").value
-                plant.scientific_name = form.querySelector("input[name='scientific_name']").value
-                plant.light_needs = form.querySelector("select[name='light']").value 
-                plant.water_needs = form.querySelector("select[name='water']").value      
-                plant.plant_type = form.querySelector("select[name='type']").value      
-                plant.stock = form.querySelector("input[name='stock']").value 
-                
-                return plant
-            }
-
             
-
-            
-        
-            function updatePlantInfo(){
+             // Update plant in database
+             function updatePlantInfo(){
+                // Get input in form
                 plant = getPlantFromForm()
-
+                // Run request
                 $.ajax({
                     url: "/plants/" + plant.name,
                     data: JSON.stringify(plant),
@@ -580,16 +448,18 @@
                         updateTableRow(plant)
                         clearForm()
                         location.reload()
-
                     },
                     error: function (xhr, status, error) {
                         console.log("error" + error)
                     }
                 })
-                
+                // Clear fprm in case user goes back without making changes
                 clearForm()
             }
-           
+
+                      
+                                                                /***** DELETE FUNCTIONS *****/
+
             // Delete plant from the database
             function deletePlant(thisElem){
                 // Confirm deletion with user
@@ -617,7 +487,7 @@
                 }
             }
             
-            // Check if user wants to delete a plant
+            // Check if user really wants to delete a plant
             function confirmDelete(){
                 option = confirm("Are you sure you want to delete this plant from the database?")
                 if (option == true){
@@ -625,29 +495,186 @@
                 }
             }
 
+
+                                                                /***** DISPLAY FUNCTIONS *****/
+
+            // Show main table
             function showDisplay(){
                 document.getElementById("options").style.display = "block"
                 document.getElementById("mainTable").style.display = "block"  
                 document.getElementById("createOrUpdate").style.display = "none"
                 document.getElementById("priceChanger").style.display = "none"
-                
-
             }
 
+            // Show options buttons
+            function showOptions() {
+                document.getElementById("options").style.display = "none"
+                document.getElementById("buttons").style.display = "block"
+            }
+
+            // Show create part of the create/update table and hide other elements
+            function showCreate(){
+                document.getElementById("options").style.display = "none"                                
+                document.getElementById("createOrUpdate").style.display = "block"
+                document.getElementById("updateHeading").style.display = "none"
+                document.getElementById("createHeading").style.display = "block"
+                document.getElementById("mainTable").style.display = "none"
+                document.getElementById("buttons").style.display = "none"
+                document.getElementById("createButton").style.display = "block" 
+                document.getElementById("updateButton").style.display = "none" 
+                document.getElementById("searchResults").style.display = "none"
+            }
+
+            // Show update part of the create/update table and fill form
+            function showUpdate(thisElem){
+                document.getElementById("options").style.display = "none"                
+                document.getElementById("createOrUpdate").style.display = "block"
+                document.getElementById("createHeading").style.display = "none"
+                document.getElementById("updateHeading").style.display = "block"
+                document.getElementById("mainTable").style.display = "none"
+                document.getElementById("buttons").style.display = "none"
+                document.getElementById("createButton").style.display = "none" 
+                document.getElementById("updateButton").style.display = "block" 
+                document.getElementById("searchResults").style.display = "none"
+
+                // Fill form with values from the row
+                var rowElement = thisElem.parentNode.parentNode;
+                var plant = readPlantRow(rowElement)
+                populateForm(plant)
+            }
+
+            // Show price change form
             function showPriceChanger(){
                 document.getElementById("priceChanger").style.display = "block"
                 document.getElementById("mainTable").style.display = "none"
                 document.getElementById("buttons").style.display = "none"
                 document.getElementById("searchResults").style.display = "none"
-
             }
 
-            function reloadPage(){
-                clearForm()
-                showDisplay()
 
+                                                                /***** TABLE FUNCTIONS *****/
+
+            // Get all data from the server using ajax
+            function populateMainTable(){
+                $.ajax({
+                    url: host + "/plants",
+                    method:"GET",
+                    datatype:"JSON",
+                    success:function(results){
+                        for (plant of results){
+                            addPlantToMainTable(plant)
+                        }
+                    },
+                    error:function (xhr,status,error){
+                       console.log ("error "+error +" code:"+status)
+                    }
+                })
             }
 
+            // Add plants to main table
+            function addPlantToMainTable(plant){
+                tableElem = document.getElementById("plantTable")
+                rowElem = tableElem.insertRow(-1)
+                // Create row id with plant name
+                rowElem.setAttribute("id", plant.name)
+                // Add data to each cell in table
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = plant.name
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = plant.scientific_name
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = plant.light_needs               
+                cell4 = rowElem.insertCell(3)
+                cell4.innerHTML = plant.water_needs                              
+                cell5 = rowElem.insertCell(4)
+                cell5.innerHTML = plant.plant_type               
+                cell6 = rowElem.insertCell(5)
+                cell6.innerHTML = plant.stock               
+                cell7 = rowElem.insertCell(6)
+                cell7.innerHTML = "€" + plant.price.toFixed(2)
+                // Add buttons to each row
+                cell8 = rowElem.insertCell(7)
+                cell8.innerHTML = "<button class='allButtons' onclick='showUpdate(this)'>Update</button>"
+                cell9 = rowElem.insertCell(8)
+                cell9.innerHTML = "<button class='allButtons' onclick='deletePlant(this)'>Delete</button>"
+            }
+            
+            // Add plant types to prices table
+            function addTypeToTable(plant){
+                tableElem = document.getElementById("pricesTable")
+                rowElem = tableElem.insertRow(-1);
+                // Create row id with plant name
+                rowElem.setAttribute("id", plant.plant_type)
+                // Add data to each cell in table
+                cell1 = rowElem.insertCell(0)
+                cell1.innerHTML = plant.plant_type
+                cell2 = rowElem.insertCell(1)
+                cell2.innerHTML = "€" + plant.price.toFixed(2)
+                // Add buttons to each row
+                cell3 = rowElem.insertCell(2)
+                cell3.innerHTML = "<button class='allButtons' onclick='priceUpdate(this)'>Update Price</button>"
+            }
+
+            // Read plant details from table row
+            function readPlantRow(rowElement){
+                plant = {}
+                
+                plant.name = rowElement.getAttribute("id");
+                // Checking for null content
+                try{
+                    plant.scientific_name = rowElement.cells[1].firstChild.textContent
+                }
+                catch(err){
+                    plant.scientific_name = ""
+                }
+                try{
+                    plant.light_needs = rowElement.cells[2].firstChild.textContent
+                }
+                catch(err){
+                    plant.light_needs = ""
+                }
+                try{
+                    plant.water_needs = rowElement.cells[3].firstChild.textContent
+                }
+                catch(err){
+                    plant.water_needs = ""
+                }
+                plant.plant_type = rowElement.cells[4].firstChild.textContent
+                plant.stock = rowElement.cells[5].firstChild.textContent
+
+                return plant
+            }
+
+            // Add current plant details to update form
+            function populateForm(plant){
+                var form = document.getElementById("createOrUpdate")
+  
+                form.querySelector("input[name='name']").value = plant.name
+                // Name cannot be changed (primary key)
+                form.querySelector("input[name='name']").disabled=true
+                form.querySelector("input[name='scientific_name']").value = plant.scientific_name
+                form.querySelector("select[name='light']").value = plant.light_needs
+                form.querySelector("select[name='water']").value = plant.water_needs      
+                form.querySelector("select[name='type']").value = plant.plant_type      
+                form.querySelector("input[name='stock']").value = plant.stock     
+            }
+
+            // Get plant information entered into create/update form
+            function getPlantFromForm(){
+                var form = document.getElementById("createOrUpdate")
+
+                var plant = {}
+                plant.name = form.querySelector("input[name='name']").value
+                plant.scientific_name = form.querySelector("input[name='scientific_name']").value
+                plant.light_needs = form.querySelector("select[name='light']").value 
+                plant.water_needs = form.querySelector("select[name='water']").value      
+                plant.plant_type = form.querySelector("select[name='type']").value      
+                plant.stock = form.querySelector("input[name='stock']").value 
+                
+                return plant
+            }
+
+            // Clear contents of a form
             function clearForm(){
                 var table = document.getElementById("createOrUpdate")
                 
@@ -660,7 +687,7 @@
                 table.querySelector("input[name='stock']").value = "0" 
             }
 
-
+            // Update row in a table
             function updateTableRow(plant){
                 rowElement = document.getElementById(plant.name)
 
@@ -672,6 +699,12 @@
                 rowElement.cells[6].textConent = plant.price
             }
 
+            // Clear form and go to main display
+            function reloadPage(){
+                clearForm()
+                showDisplay()
+            }
+            
             // Run main table function
             populateMainTable()
             showDisplay()

@@ -1,4 +1,4 @@
-/* Creating database and tables*/
+/* Initialise database and tables*/
 
 CREATE DATABASE plantdb;
 

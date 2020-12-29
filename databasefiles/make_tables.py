@@ -1,14 +1,15 @@
 # Add contents of CSV files to the tables in the database
-
 import csv
 import mysql.connector as msql
+import config
 
-# Establish connection
+# Establish connection using config file
 conn = msql.connect(
-    host = "localhost",
-    user = "root",
-    password = "root",  
-    database = "plantdb"
+    host = config.mysql["host"],
+    user = config.mysql["user"],
+    password = config.mysql["password"],
+    database = config.mysql["db"],
+    auth_plugin='mysql_native_password'
 )
 
 # Creating a cursor object
