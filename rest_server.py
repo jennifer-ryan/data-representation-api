@@ -1,5 +1,5 @@
 from flask import Flask, url_for, request, redirect, abort, jsonify, abort, send_from_directory
-
+import logging
 from flask_cors import CORS
 from plant_dao import plantdao
 
@@ -12,10 +12,15 @@ CORS(app)
 # Keep json objects sorted as in dictionary
 app.config['JSON_SORT_KEYS'] = False
 
+# Logging to a file
+logging.basicConfig(filename="serverlog.log", 
+                    level=logging.DEBUG,
+                    format="%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s")
+
 # Index
 @app.route('/')
 def index():
-    content = send_from_directory('staticpages', "home.html")
+    content = send_from_directory('staticpages', "login.html")
     return content
 # curl http://127.0.0.1:5000
 
@@ -98,14 +103,6 @@ def delete(name):
         return jsonify({"done": True})
 # curl -X DELETE http://127.0.0.1:5000/plants/name
 
-""" spare code for delete
-foundplant = plantdao.findByNameOrType(name)
-
-    if name != foundplant[0]["name"] or name != foundplant[0]["scientific_name"]:
-        abort(404, "Page not found. Please enter full name of the plant to delete.")
-
-    else:
-        """
 
 if __name__ == "__main__":
     app.run(debug=True)

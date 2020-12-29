@@ -1,4 +1,5 @@
 import mysql.connector as msql
+import config 
 
 class PlantDao:
     conn = ""
@@ -19,10 +20,11 @@ class PlantDao:
     # Estabish connection
     def __init__(self):
         self.conn =  msql.connect(
-            host = "localhost",
-            user = "root",
-            password = "root",
-            database = "plantdb"
+            host = config.mysql["host"],
+            user = config.mysql["user"],
+            password = config.mysql["password"],
+            database = config.mysql["db"],
+            auth_plugin='mysql_native_password'
         )
 
     # Get all data from both tables
