@@ -48,6 +48,14 @@
             #pricesTable {
                 width: 30%
             }
+
+            select {
+                background-color: #4CAF50;
+                border: none;
+                font-size: 14px;			
+                padding: 10px;
+                color: black;
+			}
         </style>
         
     </head>
@@ -409,7 +417,7 @@
                     searchResults.innerHTML =  "The following plants have " + light.value + " light needs and " + water.value + " water needs."
                     // Run request 
                     $.ajax({
-                        url: host + "/plants/" + light.value + "/" + water.value,
+                        url: host +"/plants/" + light.value + "/" + water.value,
                         method:"GET",
                         datatype:"JSON",
                         success:function(results){
